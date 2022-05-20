@@ -12,28 +12,46 @@ html {
 
 html,
 body {
-    min-height: 100vh;
+    min-height: 0;
     height: 100vh;
 }
 
 body * {
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
-body{
+body {
+    padding: 16px;
     background-color: lightgray;
+
     display: grid;
-    place-content: center;
+    place-items: center;
 }
 
-table * {
-    padding: 1rem;
+table {
+    border: 1px solid black;
+    table-layout: fixed;
+    border-spacing: 0;
+    width: 100%;
 }
 
-tfoot th {
-    text-align: center;
+tr {
+    display: grid;
+    grid-template-columns: 8fr 4fr 1fr 1fr;
 }
 
-tfoot td {
-    text-align: right;
+th,
+td {
+    padding: 0.5rem;
+    text-align: start;
+}
+
+tbody tr:nth-child(2n) {
+    background-color: gray;
+}
+
+thead,
+tfoot {
+    background-color: cornflowerblue;
+    /* text-align: center; */
 }
