@@ -12,13 +12,20 @@
 
 <body>
 
+    <div class="buttons">
+        <button type="button" onclick="addBunchOfShit();">Add a bunch of shit</button>
+        <button type="button">Add a book</button>
+    </div>
+
     <table>
         <thead>
             <tr>
+                <th>#</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Pages</th>
                 <th>Read</th>
+                <th><button class="delete">X</button></th>
             </tr>
         </thead>
         <tbody id="rows">
@@ -26,8 +33,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="3">Book Count</th>
+                <th></th>
+                <th></th>
+                <th>Book Count</th>
                 <th id="count"></th>
+                <th></th>
+                <th><button class="delete">X</button></th>
             </tr>
         </tfoot>
     </table>

@@ -24,20 +24,45 @@ body {
     padding: 16px;
     background-color: lightgray;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
-table {
-    border: 1px solid black;
-    table-layout: fixed;
-    border-spacing: 0;
-    width: 100%;
+button {
+    padding: 1rem 2rem;
+}
+
+/* i want the initial content centered, but there is a problem with justify-content: center; */
+/* when the content grows and scroling is added, the start get cliped off */
+/* using auto margin on the flex items centers them without stuff breaking */
+/* align-items: center; seems to work fine, just doing both with margin for consistancy */
+.buttons {
+    margin: auto;
+    margin-bottom: 1rem;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+body>table {
+    margin: auto;
+    margin-top: 0;
+}
+
+thead,
+tfoot {
+    background-color: slategray;
+    font-size: larger;
+}
+
+tbody tr:nth-child(2n) {
+    background-color: rgb(190, 190, 190);
 }
 
 tr {
     display: grid;
-    grid-template-columns: 8fr 4fr 1fr 1fr;
+    grid-template-columns: 3rem 8fr 4fr 4rem 1fr max-content;
 }
 
 th,
@@ -46,12 +71,27 @@ td {
     text-align: start;
 }
 
-tbody tr:nth-child(2n) {
-    background-color: gray;
+th:last-child,
+td:last-child {
+    background-color: lightgray;
 }
 
-thead,
-tfoot {
-    background-color: cornflowerblue;
-    /* text-align: center; */
+.delete {
+    color: black;
+    font-weight: bold;
+    font-size: large;
+    font-stretch: extra-expanded;
+    padding: 0 0.5rem;
+    background-color: red;
+}
+
+.delete:hover {
+    background-color: greenyellow;
+    transition: 0.5s;
+}
+
+/* they only exist to keep the grid lined up */
+thead .delete,
+tfoot .delete {
+    visibility: hidden;
 }

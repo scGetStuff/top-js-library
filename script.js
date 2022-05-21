@@ -4,63 +4,70 @@ const tableBody = document.getElementById('rows');
 const count = document.getElementById('count');
 
 
-
 function main() {
-    console.clear();
-
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-
-    myLibrary.forEach(book => addRow(book));
-    count.innerText = myLibrary.length;
+    addShit();
+    displayLibraryTable();
 }
 
 function addBookToLibrary(title = '', author = '', pages = 0, read = false) {
     myLibrary.push(new Book(title, author, pages, read));
 }
 
+function displayLibraryTable() {
 
-function addRow(book) {
+    tableBody.innerHTML = '';
+
+    myLibrary.forEach((book, index) => addRow(book, index));
+    count.innerText = myLibrary.length;
+}
+
+function addRow(book, index) {
     const row = document.createElement('tr');
     tableBody.appendChild(row);
+    addCell(row, index + 1);
     addCell(row, book.title);
     addCell(row, book.author);
     addCell(row, book.pages);
     addCell(row, book.read);
+    addButton(row, index);
 }
 
 function addCell(row, value) {
+    createCell(row).innerText = value;
+}
+
+// TODO: this seems horribly wrong, we hates it
+function addButton(row, index) {
+    createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
+}
+
+function createCell(row) {
     const cell = document.createElement('td');
     row.appendChild(cell);
-    cell.innerText = value;
+    return cell;
 }
+
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    displayLibraryTable();
+}
+
+function addShit() {
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 100, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 200, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 300, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 500, true);
+}
+
+function addBunchOfShit() {
+   
+    for (i = 5; i > 0; i--)
+        addShit();
+
+    displayLibraryTable();
+}
+
 
 
 function Book(title = '', author = '', pages = 0, read = false) {
