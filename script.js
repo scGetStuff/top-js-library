@@ -2,21 +2,48 @@
 let myLibrary = [];
 const tableBody = document.getElementById('rows');
 const count = document.getElementById('count');
+const modal = document.getElementById('modal');
+
+const author = document.getElementById('author');
+const title = document.getElementById('title');
+const pages = document.getElementById('pages');
+const read = document.getElementById('read');
 
 
-function main() {
-    addShit();
+(() => {
+    document.getElementById('addBunch').onclick = addBunchOfData;
+    document.getElementById('showForm').onclick = showForm;
+    document.getElementById('closeForm').onclick = closeForm;
+    document.getElementById('theForm').onsubmit = addBookFromForm;
+
+    addDummyData()
     displayLibraryTable();
+})();
+
+
+
+function addDummyData() {
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 100, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 200, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 300, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 500, true);
 }
 
 function addBookToLibrary(title = '', author = '', pages = 0, read = false) {
     myLibrary.push(new Book(title, author, pages, read));
 }
 
+function addBookFromForm() {
+    addBookToLibrary(title.value, author.value, pages.value, read.value);
+    displayLibraryTable();
+    closeForm();
+}
+
+
+
 function displayLibraryTable() {
-
     tableBody.innerHTML = '';
-
     myLibrary.forEach((book, index) => addRow(book, index));
     count.innerText = myLibrary.length;
 }
@@ -36,36 +63,52 @@ function addCell(row, value) {
     createCell(row).innerText = value;
 }
 
-// TODO: this seems horribly wrong, we hates it
-function addButton(row, index) {
-    createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
-}
-
 function createCell(row) {
     const cell = document.createElement('td');
     row.appendChild(cell);
     return cell;
 }
 
-function deleteBook(index) {
-    myLibrary.splice(index, 1);
+// TODO: still sucks.  
+function addButton(row, index) {
+    // createCell(parent).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
+
+    // this actualy seems worse than the embeded html was
+    const button = document.createElement('button');
+    button.onclick = deleteBook;
+    button.type = 'button';
+    button.classList.add('delete');
+    button.dataset.index = index;
+    button.textContent = 'X';
+
+    createCell(row).appendChild(button);
+}
+
+function deleteBook(e) {
+    myLibrary.splice(e.target.dataset.index, 1);
     displayLibraryTable();
 }
 
-function addShit() {
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 100, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 200, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 300, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 500, true);
-}
-
-function addBunchOfShit() {
-   
+function addBunchOfData() {
     for (i = 5; i > 0; i--)
-        addShit();
-
+        addDummyData();
     displayLibraryTable();
+}
+
+function showForm() {
+    modal.style.setProperty('visibility', 'visible');
+}
+
+function closeForm() {
+    resetForm();
+    modal.style.setProperty('visibility', 'hidden');
+}
+
+function resetForm() {
+    title.value = '';
+    author.value = '';
+    pages.value = '';
+    read.checked = false;
 }
 
 
@@ -80,7 +123,3 @@ function Book(title = '', author = '', pages = 0, read = false) {
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages}, ${this.read ? 'has been read' : 'not read yet'}`;
 };
-
-
-
-main();

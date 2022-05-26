@@ -13,8 +13,8 @@
 <body>
 
     <div class="buttons">
-        <button type="button" onclick="addBunchOfShit();">Add a bunch of shit</button>
-        <button type="button">Add a book</button>
+        <button type="button" id="addBunch">Add a bunch of dummy data</button>
+        <button type="button" id="showForm">Add a book</button>
     </div>
 
     <table>
@@ -42,6 +42,27 @@
             </tr>
         </tfoot>
     </table>
+
+    <div id="modal" class="modal">
+        <form action="#" id="theForm">
+            <button type="button" id="closeForm">X</button>
+            <fieldset>
+                <div>
+                    <label for="author">Author <input type="text" id="author" name="author"> </label>
+                </div>
+                <div>
+                    <label for="title">Title <input type="text" id="title" name="title"> </label>
+                </div>
+                <div>
+                    <label for="pages">Pages <input type="number" id="pages" name="pages" min="1"> </label>
+                </div>
+                <div>
+                    <label for="read">Read <input type="checkbox" id="read" name="read"> </label>
+                </div>
+            </fieldset>
+            <button type="submit" id="ok">OK</button>
+        </form>
+    </div>
 
 </body>
 
