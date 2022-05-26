@@ -5,7 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Chrome",
+            "request": "launch",
             "type": "pwa-chrome",
+            "url": "http://localhost:5500",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "pwa-chrome",
+            "runtimeArgs": ["--allow-file-access-from-files"],
             "request": "launch",
             "name": "Open index.html",
             "file": "index.html"
