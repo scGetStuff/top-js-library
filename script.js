@@ -69,23 +69,31 @@ function createCell(row) {
     return cell;
 }
 
-// TODO: still sucks.  
+// TODO: is there a standard?
+// comments left for context, i realy do not like all the DOM code
+// the embedded onclick seems shitty, but not sure what else i could do
 function addButton(row, index) {
-    // createCell(parent).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
+    
+    // first pass
+    createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
 
+    // second pass
     // this actualy seems worse than the embeded html was
-    const button = document.createElement('button');
-    button.onclick = deleteBook;
-    button.type = 'button';
-    button.classList.add('delete');
-    button.dataset.index = index;
-    button.textContent = 'X';
-
-    createCell(row).appendChild(button);
+    // const button = document.createElement('button');
+    // button.onclick = deleteBookEvent;
+    // button.type = 'button';
+    // button.classList.add('delete');
+    // button.dataset.index = index;
+    // button.textContent = 'X';
+    // createCell(row).appendChild(button);
 }
 
-function deleteBook(e) {
-    myLibrary.splice(e.target.dataset.index, 1);
+function deleteBookEvent(e) {
+    deleteBook(e.target.dataset.index);
+}
+
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
     displayLibraryTable();
 }
 
