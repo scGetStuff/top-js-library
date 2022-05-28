@@ -35,7 +35,7 @@ function addBookToLibrary(title = '', author = '', pages = 0, read = false) {
 }
 
 function addBookFromForm() {
-    addBookToLibrary(title.value, author.value, pages.value, read.value);
+    addBookToLibrary(title.value, author.value, pages.value, read.checked);
     displayLibraryTable();
     closeForm();
 }
