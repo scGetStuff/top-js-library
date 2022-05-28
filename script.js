@@ -24,9 +24,9 @@ const read = document.getElementById('read');
 
 function addDummyData() {
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 100, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 200, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 200, false);
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 300, true);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, true);
+    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, false);
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 500, true);
 }
 
@@ -34,10 +34,13 @@ function addBookToLibrary(title = '', author = '', pages = 0, read = false) {
     myLibrary.push(new Book(title, author, pages, read));
 }
 
-function addBookFromForm() {
+function addBookFromForm(e) {
     addBookToLibrary(title.value, author.value, pages.value, read.checked);
     displayLibraryTable();
     closeForm();
+    // TODO: no real submit and no persistance yet
+    // page was refreshing on first add, making it not add, so just bybass default stuff for now
+    e.preventDefault();
 }
 
 
@@ -55,8 +58,8 @@ function addRow(book, index) {
     addCell(row, book.title);
     addCell(row, book.author);
     addCell(row, book.pages);
-    addCell(row, book.read);
-    addButton(row, index);
+    addReadCheck(row, index, book.read);
+    addDeleteButton(row, index);
 }
 
 function addCell(row, value) {
@@ -69,23 +72,35 @@ function createCell(row) {
     return cell;
 }
 
-// TODO: is there a standard?
-// comments left for context, i realy do not like all the DOM code
-// the embedded onclick seems shitty, but not sure what else i could do
-function addButton(row, index) {
+// TODO: is there a standard approach for generating html?
+// comments left for context, i do not like all the DOM code, but the embedded onclick is shitty
+function addDeleteButton(row, index) {
     
     // first pass
-    createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
+    //createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
 
     // second pass
     // this actualy seems worse than the embeded html was
-    // const button = document.createElement('button');
-    // button.onclick = deleteBookEvent;
-    // button.type = 'button';
-    // button.classList.add('delete');
-    // button.dataset.index = index;
-    // button.textContent = 'X';
-    // createCell(row).appendChild(button);
+    const button = document.createElement('button');
+    button.onclick = deleteBookEvent;
+    button.type = 'button';
+    button.classList.add('delete');
+    button.dataset.index = index;
+    button.textContent = 'X';
+    createCell(row).appendChild(button);
+}
+
+function addReadCheck(row, index, value) {
+    // const state = (value == true) ? 'checked' : '';
+    // createCell(row).innerHTML = `<input type="checkbox" id="read${index}" name="read${index}" onclick=changeReadStatus(${index}) ${state}>`;
+    
+    const check = document.createElement('input');
+    check.onclick = changeReadStatusEvnet;
+    check.type = 'checkbox';
+    check.dataset.index = index;
+    check.checked = value;
+    createCell(row).appendChild(check);
+
 }
 
 function deleteBookEvent(e) {
@@ -94,6 +109,15 @@ function deleteBookEvent(e) {
 
 function deleteBook(index) {
     myLibrary.splice(index, 1);
+    displayLibraryTable();
+}
+
+function changeReadStatusEvnet(e) {
+    changeReadStatus(e.target.dataset.index);
+}
+
+function changeReadStatus(index) {
+    myLibrary[index].read = !myLibrary[index].read;
     displayLibraryTable();
 }
 
