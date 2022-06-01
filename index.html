@@ -13,8 +13,10 @@
 <body>
 
     <div class="buttons">
-        <button type="button" id="addBunch">Add a bunch of dummy data</button>
+        <button type="button" id="addDummy">Add dummy data</button>
         <button type="button" id="showForm">Add a book</button>
+        <button type="button" id="saveLibrary">Save to sessionStorage</button>
+        <button type="button" id="loadLibrary">Load from sessionStorage</button>
     </div>
 
     <table>
@@ -43,6 +45,8 @@
         </tfoot>
     </table>
 
+    <div class="foot">foot</div>
+
     <div id="modal" class="modal">
         <form action="#" id="theForm">
             <button type="button" id="closeForm">X</button>
@@ -60,6 +64,7 @@
                     <label for="read">Read <input type="checkbox" id="read" name="read" value="read"> </label>
                 </div>
             </fieldset>
+            <p>This adds to the table, but does not save automaticaly</p>
             <button type="submit" id="ok">OK</button>
         </form>
     </div>

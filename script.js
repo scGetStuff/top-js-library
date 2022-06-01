@@ -3,6 +3,7 @@ let myLibrary = [];
 const tableBody = document.getElementById('rows');
 const count = document.getElementById('count');
 const modal = document.getElementById('modal');
+const form = document.getElementById('theForm');
 
 const author = document.getElementById('author');
 const title = document.getElementById('title');
@@ -11,16 +12,35 @@ const read = document.getElementById('read');
 
 
 (() => {
-    document.getElementById('addBunch').onclick = addBunchOfData;
-    document.getElementById('showForm').onclick = showForm;
-    document.getElementById('closeForm').onclick = closeForm;
-    document.getElementById('theForm').onsubmit = addBookFromForm;
+    document.getElementById('addDummy').addEventListener('click', addDummyData);
+    document.getElementById('showForm').addEventListener('click', showForm);
+    document.getElementById('closeForm').addEventListener('click', closeForm);
+    form.addEventListener('submit', addBookFromForm);
+    document.getElementById('saveLibrary').addEventListener('click', saveLibrary);
+    document.getElementById('loadLibrary').addEventListener('click', loadLibrary);
 
-    addDummyData()
+    loadLibrary();
     displayLibraryTable();
 })();
 
 
+function loadLibrary() {
+    const test = JSON.parse(sessionStorage.getItem('myLibrary'));
+    if (test)
+        myLibrary = test;
+
+    displayLibraryTable();
+}
+
+function saveLibrary() {
+    sessionStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    // dumpStorage();
+}
+
+function dumpStorage() {
+    console.clear();
+    console.log(sessionStorage);
+}
 
 function addDummyData() {
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 100, true);
@@ -28,6 +48,8 @@ function addDummyData() {
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 300, true);
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 400, false);
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 500, true);
+    
+    displayLibraryTable();
 }
 
 function addBookToLibrary(title = '', author = '', pages = 0, read = false) {
@@ -38,17 +60,18 @@ function addBookFromForm(e) {
     addBookToLibrary(title.value, author.value, pages.value, read.checked);
     displayLibraryTable();
     closeForm();
-    // TODO: no real submit and no persistance yet
-    // page was refreshing on first add, making it not add, so just bybass default stuff for now
+
+    // TODO: not a real submit, don't want any page navigation or the add gets lost cause it does not automaticaly save
     e.preventDefault();
 }
 
-
-
 function displayLibraryTable() {
     tableBody.innerHTML = '';
-    myLibrary.forEach((book, index) => addRow(book, index));
-    count.innerText = myLibrary.length;
+
+    if (myLibrary) {
+        myLibrary.forEach((book, index) => addRow(book, index));
+        count.innerText = myLibrary.length;
+    }
 }
 
 function addRow(book, index) {
@@ -75,7 +98,7 @@ function createCell(row) {
 // TODO: is there a standard approach for generating html?
 // comments left for context, i do not like all the DOM code, but the embedded onclick is shitty
 function addDeleteButton(row, index) {
-    
+
     // first pass
     //createCell(row).innerHTML = `<button onclick=deleteBook(${index}) class="delete">X</button>`;
 
@@ -93,7 +116,7 @@ function addDeleteButton(row, index) {
 function addReadCheck(row, index, value) {
     // const state = (value == true) ? 'checked' : '';
     // createCell(row).innerHTML = `<input type="checkbox" id="read${index}" name="read${index}" onclick=changeReadStatus(${index}) ${state}>`;
-    
+
     const check = document.createElement('input');
     check.onclick = changeReadStatusEvnet;
     check.type = 'checkbox';
@@ -121,26 +144,13 @@ function changeReadStatus(index) {
     displayLibraryTable();
 }
 
-function addBunchOfData() {
-    for (i = 5; i > 0; i--)
-        addDummyData();
-    displayLibraryTable();
-}
-
 function showForm() {
     modal.style.setProperty('visibility', 'visible');
 }
 
 function closeForm() {
-    resetForm();
+    form.reset();
     modal.style.setProperty('visibility', 'hidden');
-}
-
-function resetForm() {
-    title.value = '';
-    author.value = '';
-    pages.value = '';
-    read.checked = false;
 }
 
 
