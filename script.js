@@ -1,5 +1,6 @@
 
 let myLibrary = [];
+
 const tableBody = document.getElementById('rows');
 const count = document.getElementById('count');
 const modal = document.getElementById('modal');
@@ -155,13 +156,16 @@ function closeForm() {
 
 
 
-function Book(title = '', author = '', pages = 0, read = false) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(title = '', author = '', pages = 0, read = false) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    info = function () {
+        return `${this.title} by ${this.author}, ${this.pages}, ${this.read ? 'has been read' : 'not read yet'}`;
+    };
 }
 
-Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages}, ${this.read ? 'has been read' : 'not read yet'}`;
-};

@@ -1,7 +1,7 @@
 # top-js-library
 The Odin Project, Full Stack JavaScript Path, JavaScript, Organizing your JavaScript Code, Project: Library
 
-At this point in the course we are using Constructor.  Based on stuff I've read I don't think I would ever use Constructor.  Seems like Factory would be best, maybe class.
+A later assignment has us go back to this project and change from Constructor to Class.
 
 Issues/TODO:
 - question about best practice for generating html from js
