@@ -11,7 +11,7 @@ const pages = document.getElementById('pages');
 const read = document.getElementById('read');
 
 
-(() => {
+{
     document.getElementById('addDummy').addEventListener('click', addDummyData);
     document.getElementById('showForm').addEventListener('click', showForm);
     document.getElementById('closeForm').addEventListener('click', closeForm);
@@ -21,7 +21,7 @@ const read = document.getElementById('read');
 
     loadLibrary();
     displayLibraryTable();
-})();
+}
 
 
 function loadLibrary() {
@@ -105,7 +105,7 @@ function addDeleteButton(row, index) {
     // second pass
     // this actualy seems worse than the embeded html was
     const button = document.createElement('button');
-    button.onclick = deleteBookEvent;
+    button.addEventListener('click', deleteBookEvent);
     button.type = 'button';
     button.classList.add('delete');
     button.dataset.index = index;
@@ -118,7 +118,7 @@ function addReadCheck(row, index, value) {
     // createCell(row).innerHTML = `<input type="checkbox" id="read${index}" name="read${index}" onclick=changeReadStatus(${index}) ${state}>`;
 
     const check = document.createElement('input');
-    check.onclick = changeReadStatusEvnet;
+    check.addEventListener('change', changeReadStatusEvnet);
     check.type = 'checkbox';
     check.dataset.index = index;
     check.checked = value;
